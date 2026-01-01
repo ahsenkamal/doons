@@ -6,8 +6,8 @@ mod protocol;
 use protocol::{BytePacketBuffer, DnsPacket, DnsQuestion, QueryType};
 
 fn main() -> Result<()> {
-    let qname = "google.com";
-    let qtype = QueryType::A;
+    let qname = "yahoo.com";
+    let qtype = QueryType::MX;
     let server = ("8.8.8.8", 53);
 
     let socket = UdpSocket::bind(("0.0.0.0", 43210))?;
