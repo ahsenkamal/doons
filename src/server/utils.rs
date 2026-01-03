@@ -1,6 +1,8 @@
+use crate::cache::DnsCache;
 use crate::protocol::{BytePacketBuffer, DnsPacket, DnsQuestion, QueryType, ResultCode};
 use std::io::Result;
 use std::net::{Ipv4Addr, UdpSocket};
+use std::sync::{Arc, Mutex};
 
 pub fn recursive_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
     // For now starting with a.root-servers.net.
@@ -43,7 +45,7 @@ pub fn recursive_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
 }
 
 /// Handle a single incoming dns packet
-pub fn handle_query(socket: &UdpSocket) -> Result<()> {
+pub fn handle_query(socket: &UdpSocket, cache: Arc<Mutex<DnsCache>>) -> Result<()> {
     let mut req_buffer = BytePacketBuffer::new();
 
     // Need to reply to src
@@ -62,9 +64,22 @@ pub fn handle_query(socket: &UdpSocket) -> Result<()> {
     if let Some(question) = request.questions.pop() {
         println!("Received query: {:?}", question);
 
-        if let Ok(result) = recursive_lookup(&question.name, question.qtype) {
+        let mut cache = cache.lock().unwrap();
+        if let Some(records) = cache.lookup(&question) {
+            println!("Found in cache!");
+
+            packet.questions.push(question.clone());
+            packet.header.rescode = ResultCode::NOERROR;
+
+            for rec in records {
+                println!("Answer: {:?}", rec);
+                packet.answers.push(rec);
+            }
+        } else if let Ok(result) = recursive_lookup(&question.name, question.qtype) {
             packet.questions.push(question.clone());
             packet.header.rescode = result.header.rescode;
+
+            cache.insert(question, result.answers.clone(), 64);
 
             for rec in result.answers {
                 println!("Answer: {:?}", rec);

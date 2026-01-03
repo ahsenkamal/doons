@@ -1,7 +1,7 @@
 use crate::protocol::{BytePacketBuffer, QueryType};
 use std::io::Result;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DnsQuestion {
     pub name: String,
     pub qtype: QueryType,
