@@ -1,3 +1,4 @@
+use crate::CACHE_MODE;
 use crate::cache::CacheEntry;
 use crate::protocol::{DnsQuestion, DnsRecord};
 use std::collections::HashMap;
@@ -22,6 +23,10 @@ impl DnsCache {
     }
 
     pub fn lookup(&mut self, question: &DnsQuestion) -> Option<Vec<DnsRecord>> {
+        if !CACHE_MODE {
+            return None;
+        }
+
         let key = question;
         match self.cache.get(&key) {
             Some(entry) if entry.valid() => Some(entry.records.clone()),

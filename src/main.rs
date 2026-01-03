@@ -8,6 +8,8 @@ mod server;
 use cache::DnsCache;
 use server::utils::handle_query;
 
+static CACHE_MODE: bool = true;
+
 fn main() -> Result<()> {
     let socket = UdpSocket::bind(("0.0.0.0", 2053))?;
     let cache = Arc::new(Mutex::new(DnsCache::new()));
