@@ -1,13 +1,13 @@
 Statistics:
 
-  Queries sent:         30
-  Queries completed:    28 (93.33%)
-  Queries lost:         2 (6.67%)
+  Queries sent:         60
+  Queries completed:    50 (83.33%)
+  Queries lost:         10 (16.67%)
 
-  Response codes:       NOERROR 14 (50.00%), SERVFAIL 14 (50.00%)
-  Average packet size:  request 28, response 88
-  Run time (s):         30.001084
-  Queries per second:   0.933300
+  Response codes:       NOERROR 33 (66.00%), SERVFAIL 17 (34.00%)
+  Average packet size:  request 28, response 118
+  Run time (s):         30.000885
+  Queries per second:   1.666618
 
-  Average Latency (s):  0.289268 (min 0.005603, max 0.637408)
-  Latency StdDev (s):   0.180663
+  Average Latency (s):  0.378482 (min 0.000824, max 0.986459)
+  Latency StdDev (s):   0.305443
