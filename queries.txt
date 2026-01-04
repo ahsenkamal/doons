@@ -1,0 +1,49 @@
+google.com A
+youtube.com A
+facebook.com A
+instagram.com A
+twitter.com A
+linkedin.com A
+amazon.com A
+netflix.com A
+cloudflare.com A
+openai.com A
+
+github.com A
+stackoverflow.com A
+reddit.com A
+wikipedia.org A
+medium.com A
+npmjs.com A
+rust-lang.org A
+docs.rs A
+crates.io A
+golang.org A
+
+apple.com A
+microsoft.com A
+windows.com A
+ubuntu.com A
+debian.org A
+archlinux.org A
+kernel.org A
+gnu.org A
+
+example.com A
+example.net A
+example.org A
+
+bbc.com A
+nytimes.com A
+theguardian.com A
+cnn.com A
+reuters.com A
+
+flipkart.com A
+amazon.in A
+paytm.com A
+irctc.co.in A
+ola.cab A
+swiggy.com A
+zomato.com A
+

@@ -3,6 +3,7 @@ use crate::protocol::{BytePacketBuffer, DnsPacket, DnsQuestion, QueryType, Resul
 use std::io::Result;
 use std::net::{Ipv4Addr, UdpSocket};
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 pub fn recursive_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
     // For now starting with a.root-servers.net.
@@ -86,11 +87,11 @@ pub fn handle_query(socket: &UdpSocket, cache: Arc<Mutex<DnsCache>>) -> Result<(
                 packet.answers.push(rec);
             }
             for rec in result.authorities {
-                println!("Authority: {:?}", rec);
+                // println!("Authority: {:?}", rec);
                 packet.authorities.push(rec);
             }
             for rec in result.resources {
-                println!("Resource: {:?}", rec);
+                // println!("Resource: {:?}", rec);
                 packet.resources.push(rec);
             }
         } else {
@@ -114,6 +115,8 @@ pub fn handle_query(socket: &UdpSocket, cache: Arc<Mutex<DnsCache>>) -> Result<(
 
 pub fn lookup(qname: &str, qtype: QueryType, server: (Ipv4Addr, u16)) -> Result<DnsPacket> {
     let socket = UdpSocket::bind(("0.0.0.0", 43210))?;
+    socket.set_read_timeout(Some(Duration::from_millis(500)))?;
+
     let mut packet = DnsPacket::new();
 
     packet.header.id = 6666;

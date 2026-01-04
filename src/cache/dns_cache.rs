@@ -18,6 +18,10 @@ impl DnsCache {
     }
 
     pub fn insert(&mut self, question: DnsQuestion, records: Vec<DnsRecord>, ttl: u32) {
+        if !CACHE_MODE {
+            return;
+        }
+
         let entry = CacheEntry::new(records, Instant::now() + Duration::from_secs(ttl as u64));
         self.cache.insert(question, entry);
     }
